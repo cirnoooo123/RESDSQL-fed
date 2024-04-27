@@ -253,5 +253,19 @@ sh scripts/train/cspider_text2sql/train_text2sql_mt5_base.sh
 ```
 
 
+## Federated Training on Spider
+**RESDSQL-fed**
+```sh
+# Step1: preprocess dataset
+sh scripts/train/text2sql/preprocess.sh
+# Step2: train cross-encoder 可以跳过这步，直接使用论文提供的训练好的cross-encoder
+sh scripts/train/text2sql/train_text2sql_schema_item_classifier.sh
+# Step3: prepare text-to-sql training and development set for T5
+sh scripts/train/text2sql/generate_text2sql_dataset.sh
+# Step4: federated fine-tune T5-base
+sh scripts/train/text2sql/fed_train_text2sql_t5_base.sh
+```
+
+
 ## Acknowledgements
 We would thanks to Hongjin Su and Tao Yu for their help in evaluating our method on Spider's test set. We would also thanks to PICARD ([paper](https://arxiv.org/abs/2109.05093), [code](https://github.com/ServiceNow/picard)), NatSQL ([paper](https://arxiv.org/abs/2109.05153), [code](https://github.com/ygan/NatSQL)), Spider ([paper](https://arxiv.org/abs/1809.08887), [dataset](https://yale-lily.github.io/spider)), Spider-DK ([paper](https://arxiv.org/abs/2109.05157), [dataset](https://github.com/ygan/Spider-DK)), Spider-Syn ([paper](https://arxiv.org/abs/2106.01065), [dataset](https://github.com/ygan/Spider-Syn)), Spider-Realistic ([paper](https://arxiv.org/abs/2010.12773), [dataset](https://doi.org/10.5281/zenodo.5205322)), Dr.Spider ([paper](https://openreview.net/pdf?id=Wc5bmZZU9cy), [dataset](https://github.com/awslabs/diagnostic-robustness-text-to-sql)), and CSpider ([paper](https://arxiv.org/abs/1909.13293), [dataset](https://taolusi.github.io/CSpider-explorer/)) for their interesting work and open-sourced code and dataset.
