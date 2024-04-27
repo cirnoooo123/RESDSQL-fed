@@ -113,7 +113,7 @@ class Text2SQLDataset(Dataset):
     def __init__(
         self,
         dir_: str,
-        mode: str
+        mode: str,
     ):
         super(Text2SQLDataset).__init__()
         
@@ -147,3 +147,14 @@ class Text2SQLDataset(Dataset):
             return self.input_sequences[index], self.output_sequences[index], self.db_ids[index], self.all_tc_original[index]
         elif self.mode in ['eval', "test"]:
             return self.input_sequences[index], self.db_ids[index], self.all_tc_original[index]
+
+    def to_fed_dataset(self, client_id, total_num):
+        total_len = len(self.input_sequences)
+        start = total_len // total_num * client_id
+        end = total_len // total_num * (client_id + 1)
+        self.input_sequences = self.input_sequences[start: end]
+        self.output_sequences = self.output_sequences[start: end]
+        self.db_ids = self.db_ids[start: end]
+        self.all_tc_original = self.all_tc_original[start: end]
+        return self
+
